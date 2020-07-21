@@ -15,15 +15,4 @@ class Payment
         'amount',
         'token'
     ];
-
-    /**
-     * Relationship with wallet
-     *
-     * @return void
-     */
-    public function payments()
-    {
-        return $this->hasMany('App\Payment', 'wallet_id', 'id')
-            ->orderBy('created_at', 'DESC');
-    }
 }
