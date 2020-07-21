@@ -1,0 +1,12 @@
+webservices/node_modules
+webservices/public/hot
+webservices/public/storage
+webservices/storage/*.key
+webservices/vendor
+webservices/.env
+webservices/.env.backup
+webservices/.phpunit.result.cache
+webservices/Homestead.json
+webservices/Homestead.yaml
+webservices/npm-debug.log
+webservices/yarn-error.log
