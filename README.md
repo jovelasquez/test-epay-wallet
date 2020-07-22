@@ -27,7 +27,7 @@ Clonar el repositorio `$ git clone https://github.com/jovelasquez/test-epay-wall
 
 1. Moverse al proyecto `$ cd test-epay-wallet/client/`
 2. Ejecutar el comando para instalar las dependencias `$ yarn`
-3. Ejecutar el proyecto con ``
+3. Ejecutar el proyecto con `$ yarn start`
 
 ## Postman
 
