@@ -67,7 +67,7 @@ class PaymentService
 
             return [
                 "code" => 200,
-                "message" => "Usuario creado exitosamente",
+                "message" => "Pago creado exitosamente, verifique su correo para confirmar el pago",
                 "payload" => $pay->toArray()
             ];
         } catch (ModelNotFoundException $exception) {

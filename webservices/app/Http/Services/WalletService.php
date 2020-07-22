@@ -46,7 +46,7 @@ class WalletService
 
             return [
                 "code" => 200,
-                "message" => "Usuario creado exitosamente",
+                "message" => "Saldo Recargado existosamente",
                 "payload" => $wallet->toArray()
             ];
         } catch (ModelNotFoundException $exception) {
@@ -80,7 +80,7 @@ class WalletService
  
         return [
             "code" => 200,
-            "message" => "Usuario creado exitosamente",
+            "message" => "Su saldo disponible",
             "payload" => $user->wallet->toArray()
         ];
     }

@@ -1,14 +1,13 @@
 const router = require("express").Router();
-const soap = require("soap");
 const { validationResult } = require("express-validator");
 const { userCreateRequest } = require("../requests/user");
-const { getWSDL, parseResponse } = require("../utils/index");
+const { doRequestSoap } = require("../services");
 
 /**
  * Crear un nuevo usuario
  *
  */
-router.post("/", userCreateRequest(), (req, res, next) => {
+router.post("/", userCreateRequest(), (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({
@@ -18,21 +17,13 @@ router.post("/", userCreateRequest(), (req, res, next) => {
     });
   }
 
+  const options = {
+    method: "createUser",
+    data: req.body,
+    res,
+  };
   //Consumir el WebService
-  const wsdl = getWSDL("user");
-  soap.createClient(wsdl, function (err, client) {
-    if (err) {
-      console.log(err);
-    }
-
-    client.createUser(req.body, function (err, result, envelope, soapHeader) {
-      if (err) {
-        console.log(err);
-      }
-
-      return parseResponse(res, result, "$value");
-    });
-  });
+  doRequestSoap("user", options);
 });
 
 module.exports = router;
