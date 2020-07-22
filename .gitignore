@@ -10,3 +10,5 @@ webservices/Homestead.json
 webservices/Homestead.yaml
 webservices/npm-debug.log
 webservices/yarn-error.log
+
+server/node_modules
