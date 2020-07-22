@@ -51,7 +51,7 @@ class UserService
             }
 
             return [
-                "code" => 200, "message" => "Usuario creado exitosamente",
+                "code" => 201, "message" => "Usuario creado exitosamente",
                 "payload" => $user->toArray()
             ];
         } catch (ModelNotFoundException $exception) {

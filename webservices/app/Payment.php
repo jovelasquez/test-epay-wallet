@@ -1,8 +1,8 @@
 <?php
 
 namespace App;
-
-class Payment
+use Illuminate\Database\Eloquent\Model;
+class Payment extends Model
 {
     /**
      * The attributes that are mass assignable.
