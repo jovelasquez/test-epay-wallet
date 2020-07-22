@@ -3,6 +3,8 @@
 namespace App\Http\Services;
 
 use App\User;
+use App\Payment;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Mail\PaymentConfirm;
 use Illuminate\Http\Response;
@@ -87,10 +89,44 @@ class PaymentService
      */
     public function paymentConfirm(string $sessionToken, string $token)
     {
-        return [
-            "code" => 201,
-            "message" => "Usuario creado exitosamente",
-            "payload" => $user->wallet->toArray()
-        ];
+        if (session()->getId() !== $sessionToken) {
+            return [
+                "code" => 404,
+                "message" => "La sessión ha expirado o el pago ya fue procesado",
+                "errors" => $exception
+            ];
+        }
+
+        $payment = Payment::findBySessionAndToken($sessionToken, $token);
+        if (!$payment || $payment && $payment->paid_at) {
+            return [
+                "code" => 404,
+                "message" => "El pago no existe o ya fue procesado",
+                "errors" => []
+            ];
+        }
+
+        try {
+            // Debitar de la billetera
+            $wallet = $payment->wallet;
+            $wallet->balance -= $payment->amount;
+            $wallet->save();
+
+            // Marcar como pago confirmado
+            $payment->paid_at = Carbon::now();
+            $payment->save();
+
+            return [
+                "code" => 201,
+                "message" => "Pago procesado exitosamente",
+                "payload" => session()->getId() === $sessionToken
+            ];
+        } catch (ModelNotFoundException $exception) {
+            return [
+                "code" => 404,
+                "message" => "Error creando el pago a la billetera",
+                "errors" => $exception
+            ];
+        }
     }
 }
