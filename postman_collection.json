@@ -1,0 +1,469 @@
+{
+	"info": {
+		"_postman_id": "4c2ae468-9b0d-4236-b40b-7ca36e520236",
+		"name": "ePayCo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "api-rest",
+			"item": [
+				{
+					"name": "Crear Usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dni\": \"123456789\",\n    \"name\": \"Jose Velasquez\",\n    \"email\": \"demo@demo.com\",\n    \"mobile\": \"584241002839\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/users",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar Saldo Billetera",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/wallets/balance?dni=123456789&mobile=584241002839",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"wallets",
+								"balance"
+							],
+							"query": [
+								{
+									"key": "dni",
+									"value": "123456789"
+								},
+								{
+									"key": "mobile",
+									"value": "584241002839"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Recargar Saldo a Billetera",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dni\": \"123456789\",\n    \"mobile\": \"584241002839\",\n    \"amount\": 50000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/wallets/recharge",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"wallets",
+								"recharge"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Pago",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dni\": \"123456789\",\n    \"mobile\": \"584241002839\",\n    \"amount\": 5000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/wallets/payment",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"wallets",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Confirmar Pago",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/wallets/payment?sessionToken=glt6hC6ZRT6IhTjQNuaJgRivVzbijAHwARKWG4zo&token=LLBITW",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"wallets",
+								"payment"
+							],
+							"query": [
+								{
+									"key": "sessionToken",
+									"value": "glt6hC6ZRT6IhTjQNuaJgRivVzbijAHwARKWG4zo"
+								},
+								{
+									"key": "token",
+									"value": "LLBITW"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "76fc6bae-2ed4-4a34-93c0-ebe56c1c7a5e",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "60f55430-f46d-4ee3-b061-c011379d1233",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "webservices",
+			"item": [
+				{
+					"name": "Describe WSDL Usuario",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/webservices/user/soap?wsdl",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"webservices",
+								"user",
+								"soap"
+							],
+							"query": [
+								{
+									"key": "wsdl",
+									"value": null
+								}
+							]
+						},
+						"description": "Documento del servicio usuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\">\n    <Body>\n        <createUser xmlns=\"http://localhost:8000/webservices/user/soap\">\n            <name>jose</name>\n            <dni>123456789</dni>\n            <email>demos@demo.com</email>\n            <mobile>123456</mobile>\n        </createUser>\n    </Body>\n</Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/webservices/user/soap?wsdl",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"webservices",
+								"user",
+								"soap"
+							],
+							"query": [
+								{
+									"key": "wsdl",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Describe WSDL Wallet",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/webservices/wallet/soap?wsdl",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"webservices",
+								"wallet",
+								"soap"
+							],
+							"query": [
+								{
+									"key": "wsdl",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Recargar Wallet",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\">\n    <Body>\n        <recharge xmlns=\"http://localhost:8000/webservices/wallet/soap\">\n            <dni>123456789</dni>\n            <mobile>123456</mobile>\n            <amount>100</amount>\n        </recharge>\n    </Body>\n</Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/webservices/wallet/soap?wsdl",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"webservices",
+								"wallet",
+								"soap"
+							],
+							"query": [
+								{
+									"key": "wsdl",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar Saldo Wallet",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\">\n    <Body>\n        <getBalance xmlns=\"http://localhost:8000/webservices/wallet/soap\">\n            <dni>123456789</dni>\n            <mobile>584241002839</mobile>\n        </getBalance>\n    </Body>\n</Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/webservices/wallet/soap?wsdl",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"webservices",
+								"wallet",
+								"soap"
+							],
+							"query": [
+								{
+									"key": "wsdl",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Describe WSDL Payment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/webservices/payment/soap?wsdl",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"webservices",
+								"payment",
+								"soap"
+							],
+							"query": [
+								{
+									"key": "wsdl",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear un pago de ticket",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\">\n    <Body>\n        <pay xmlns=\"http://localhost:8000/webservices/payment/soap\">\n            <dni>123456789</dni>\n            <mobile>123456</mobile>\n            <amount>250</amount>\n        </pay>\n    </Body>\n</Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/webservices/payment/soap",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"webservices",
+								"payment",
+								"soap"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Confirmar un Pago de ticket",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\">\n    <Body>\n        <paymentConfirm xmlns=\"http://localhost:8000/webservices/payment/soap\">\n            <sessionToken>3tqXFso26fDQs5RvhzAs4fOn9z4faQIeUQsieg2T</sessionToken>\n            <token>ZJXEHM</token>\n        </paymentConfirm>\n    </Body>\n</Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/webservices/payment/soap",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"webservices",
+								"payment",
+								"soap"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

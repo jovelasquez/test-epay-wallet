@@ -23,7 +23,6 @@ module.exports.parseResponse = (res, result) => {
         }
       });
       response["payload"] = results;
-      console.log(response["payload"]);
     } else {
       response["errors"] = payload.map((item) => ({
         [item.key.$value]: item.value.item.$value,
