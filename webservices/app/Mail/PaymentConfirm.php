@@ -35,7 +35,7 @@ class PaymentConfirm extends Mailable
             ->with([
                 'token' => $this->payment->token,
                 'url' => env('APP_CLIENT_URL') .
-                    "/shopping/complete?sessionToken={$this->payment->session_token}" .
+                    "/wallet/payment/complete?sessionToken={$this->payment->session_token}" .
                     "&token={$this->payment->token}",
             ]);
     }
