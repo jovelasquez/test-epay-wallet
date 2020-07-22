@@ -45,12 +45,31 @@ router.put("/recharge", walletUpdateRequest(), (req, res) => {
 });
 
 /**
+ * Genera un proceso de pago
  *
  */
 router.post("/payment", (req, res) => {
   const options = {
     method: "pay",
     data: req.body,
+    res,
+  };
+
+  //Consumir el WebService
+  doRequestSoap("payment", options);
+});
+
+/**
+ * Confirmar un proceso de pago
+ *
+ */
+router.put("/payment", (req, res) => {
+  const options = {
+    method: "paymentConfirm",
+    data: {
+      sessionToken: req.query.sessionToken,
+      token: req.query.token,
+    },
     res,
   };
 

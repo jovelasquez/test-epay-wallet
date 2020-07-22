@@ -56,7 +56,7 @@ class UserService
             ];
         } catch (ModelNotFoundException $exception) {
             return [
-                "code" => 404, "message" => "Error creando el usuario",
+                "code" => 500, "message" => "Error creando el usuario",
                 "errors" => $exception
             ];
         }

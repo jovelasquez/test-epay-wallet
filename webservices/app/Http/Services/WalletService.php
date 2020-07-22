@@ -51,7 +51,7 @@ class WalletService
             ];
         } catch (ModelNotFoundException $exception) {
             return [
-                "code" => 404,
+                "code" => 500,
                 "message" => "Error recarganod la billetera",
                 "errors" => $exception
             ];

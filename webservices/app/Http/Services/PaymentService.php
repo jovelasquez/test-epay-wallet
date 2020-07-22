@@ -48,7 +48,7 @@ class PaymentService
         if ($wallet->balance < $amount) {
             return [
                 "code" => 422,
-                "message" => "Saldo no disponible",
+                "message" => "Su saldo es insuficiente, por favor regarge",
                 "errors" => []
             ];
         }
@@ -66,13 +66,13 @@ class PaymentService
             Mail::to($user->email)->send(new PaymentConfirm($pay));
 
             return [
-                "code" => 200,
+                "code" => 201,
                 "message" => "Pago creado exitosamente, verifique su correo para confirmar el pago",
                 "payload" => $pay->toArray()
             ];
         } catch (ModelNotFoundException $exception) {
             return [
-                "code" => 404,
+                "code" => 500,
                 "message" => "Error creando el pago a la billetera",
                 "errors" => $exception
             ];
@@ -89,14 +89,6 @@ class PaymentService
      */
     public function paymentConfirm(string $sessionToken, string $token)
     {
-        if (session()->getId() !== $sessionToken) {
-            return [
-                "code" => 404,
-                "message" => "La sessión ha expirado o el pago ya fue procesado",
-                "errors" => $exception
-            ];
-        }
-
         $payment = Payment::findBySessionAndToken($sessionToken, $token);
         if (!$payment || $payment && $payment->paid_at) {
             return [
@@ -117,13 +109,13 @@ class PaymentService
             $payment->save();
 
             return [
-                "code" => 201,
+                "code" => 200,
                 "message" => "Pago procesado exitosamente",
                 "payload" => session()->getId() === $sessionToken
             ];
         } catch (ModelNotFoundException $exception) {
             return [
-                "code" => 404,
+                "code" => 500,
                 "message" => "Error creando el pago a la billetera",
                 "errors" => $exception
             ];
