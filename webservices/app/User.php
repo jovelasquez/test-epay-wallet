@@ -41,4 +41,40 @@ class User extends Model
     {
         return $this->hasOne('App\Wallet', 'user_id', 'id');
     }
+
+    /**
+     * Get User by dni function
+     *
+     * @param Builder $query
+     * @param string $dni
+     * @return Builder
+     */
+    public function scopeDni($query, $dni)
+    {
+        return $query->where('dni', $dni);
+    }
+
+    /**
+     * Get User by mobile function
+     *
+     * @param Builder $query
+     * @param string $mobile
+     * @return Builder
+     */
+    public function scopeMobile($query, $mobile)
+    {
+        return $query->where('mobile', $mobile);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $dni
+     * @param [type] $mobile
+     * @return void
+     */
+    public static function findByDniAndMobile($dni, $mobile)
+    {
+        return (new static)::dni($dni)->mobile($mobile)->first();
+    }
 }

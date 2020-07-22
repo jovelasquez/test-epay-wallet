@@ -51,7 +51,7 @@ class WebServiceController extends Controller
         $class = $namespace . $service;
 
         if (!class_exists($class)) {
-            throw new ReflectionException("La Clase {$class} no existe");
+            throw new ReflectionException("El Servicio {$class} no existe");
         }
 
         return $class;
