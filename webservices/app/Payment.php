@@ -19,6 +19,16 @@ class Payment extends Model
     ];
 
     /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'session_token',
+        'token'
+    ];
+    
+    /**
      * Relationship with wallet
      *
      * @return void
