@@ -72,7 +72,7 @@ class UserService
     {
         return Validator::make($data, [
             'name' => 'required|string|max:255',
-            'dni' => 'required|string|max:255',
+            'dni' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'mobile' => 'required|string',
         ]);
