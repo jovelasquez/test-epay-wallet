@@ -57,4 +57,31 @@ class WalletService
             ];
         }
     }
+
+    /**
+     * Obtine el balance de una wallet function
+     *
+     * @soap
+     * @param string $dni
+     * @param string $mobile
+     * @return array
+     */
+    public function getBalance(string $dni, string $mobile)
+    {
+        // Obtener la billetera del usuario
+        $user = User::findByDniAndMobile($dni, $mobile);
+        if (!$user) {
+            return [
+                 "code" => 404,
+                 "message" => "Los datos sumnistrados no existen.",
+                 "errors" => []
+             ];
+        }
+ 
+        return [
+            "code" => 200,
+            "message" => "Usuario creado exitosamente",
+            "payload" => $user->wallet->toArray()
+        ];
+    }
 }
