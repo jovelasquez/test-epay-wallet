@@ -3,7 +3,7 @@
 
 The body of your message. code confirm: {{ $token }}
 
-@component('mail::button', ['url' => '', 'color' => 'success'])
+@component('mail::button', ['url' => $url, 'color' => 'success'])
 Button Text
 @endcomponent
 
