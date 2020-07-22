@@ -72,11 +72,13 @@ class WebServiceController extends Controller
         $wsdlFile = strtolower($service) . '.wsdl';
         $wsdlFile = storage_path("app/wsdl/{$wsdlFile}");
         
-        //if (!$wsdlFile) {
-        $wsdlGenerator = new PHPClass2WSDL($serviceClass, $serviceURI);
-        $wsdlGenerator->generateWSDL(true);
-        $wsdlGenerator->save($wsdlFile);
-        //}
+        if (!$wsdlFile) {
+            // Genera el documento nuevamente
+            // la ruta es storage/app/wsdl
+            $wsdlGenerator = new PHPClass2WSDL($serviceClass, $serviceURI);
+            $wsdlGenerator->generateWSDL(true);
+            $wsdlGenerator->save($wsdlFile);
+        }
         
         return $wsdlFile;
     }
