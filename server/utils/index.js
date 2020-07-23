@@ -8,7 +8,7 @@ module.exports.parseResponse = (res, result) => {
   const code = result.return.item[0].value.$value;
 
   let response = {
-    [result.return.item[0].key.$value]: result.return.item[0].value.$value,
+    [result.return.item[0].key.$value]: parseInt(code),
     [result.return.item[1].key.$value]: result.return.item[1].value.$value,
     [result.return.item[2].key.$value]: [],
   };
@@ -30,5 +30,5 @@ module.exports.parseResponse = (res, result) => {
     }
   }
 
-  res.status(code).json(response);
+  res.status(parseInt(code)).json(response);
 };

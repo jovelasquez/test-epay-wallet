@@ -8,9 +8,11 @@ import { RechageWallet } from "../../services";
 class WalletRechargeScreen extends Component {
   constructor(props) {
     super(props);
+
+    const user = JSON.parse(localStorage.getItem("user"));
     this.state = {
       isLoading: false,
-      formValue: { dni: "", mobile: "", amount: "" },
+      formValue: { dni: user.dni, mobile: user.mobile, amount: "" },
       formSchema: Yup.object().shape({
         dni: Yup.string().required("Este campo es requerido"),
         mobile: Yup.string().required("Este campo es requerido"),
@@ -25,8 +27,9 @@ class WalletRechargeScreen extends Component {
     RechageWallet(value)
       .then((response) => response.json())
       .then((data) => {
-        console.log("response...", data);
-        alert(data.message);
+        if (data.code === 200) {
+          alert(data.message);
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -52,8 +55,20 @@ class WalletRechargeScreen extends Component {
             onSubmit={(values) => this.onSubmitHandle(values)}
             validationSchema={formSchema}>
             <Form>
-              <CustomField id="dni" name="dni" placeholder="Documento de Identidad" />
-              <CustomField id="mobile" name="mobile" placeholder="Teléfono" />
+              <CustomField
+                id="dni"
+                label="Documento de Identidad"
+                name="dni"
+                placeholder="Documento de Identidad"
+                disabled
+              />
+              <CustomField
+                id="mobile"
+                label="Teléfono"
+                name="mobile"
+                placeholder="Teléfono"
+                disabled
+              />
               <div className="mt-4">
                 <CustomField
                   id="amount"

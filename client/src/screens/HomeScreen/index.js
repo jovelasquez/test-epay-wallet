@@ -1,22 +1,24 @@
 import React, { Component } from "react";
 import Toolbar from "../../components/Toolbar";
 import Botton from "../../components/Button";
-import { GetBalanceWallet, CreatePayment } from "../../services";
+import { GetBalanceWallet, CreatePayment, PaymentConfirm } from "../../services";
+import * as QueryString from "query-string";
 
 class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      query: QueryString.parse(props.location.search),
+      user: JSON.parse(localStorage.getItem("user")) || {},
       walletBalance: 0,
       isLoading: false,
     };
   }
 
   componentDidMount() {
-    //ToDO: replacar con los datos del state
     GetBalanceWallet({
-      dni: "3333",
-      mobile: "3333",
+      dni: this.state.user.dni,
+      mobile: this.state.user.mobile,
     })
       .then((response) => response.json())
       .then((data) => {
@@ -28,25 +30,45 @@ class HomeScreen extends Component {
       .catch((error) => {
         console.error(error);
       });
+
+    const { action, sessionToken, token } = this.state.query;
+    if (action === "paymentConfirm" && !!sessionToken && !!token) {
+      this.onPaymentConfirm({ sessionToken, token });
+    }
   }
 
-  createPay = (amount) => {
+  onCreatePay = (amount) => {
     this.setState({ isLoading: true });
     CreatePayment({
-      dni: "3333",
-      mobile: "3333",
+      dni: this.state.user.dni,
+      mobile: this.state.user.mobile,
       amount: amount,
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("response...", data);
-        alert(data.message);
+        if (data.code === 201) {
+          alert(data.message);
+        } else {
+          alert(data.message);
+        }
       })
       .catch((error) => {
         console.error(error);
       })
       .finally(() => {
         this.setState({ isLoading: false });
+      });
+  };
+
+  onPaymentConfirm = (data) => {
+    PaymentConfirm(data)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("response...", data);
+        this.props.history.replace("/");
+      })
+      .catch((error) => {
+        console.error(error);
       });
   };
 
@@ -79,7 +101,11 @@ class HomeScreen extends Component {
                       </p>
                     </div>
                     <div className="flex flex-col items-center justify-center w-full h-full py-6 px-8 rounded-b-lg bg-blue-500">
-                      <Botton block loading={isLoading} onClick={() => this.createPay("10")}>
+                      <Botton
+                        block
+                        disabled={walletBalance < 10 ? true : false}
+                        loading={isLoading}
+                        onClick={() => this.onCreatePay("10")}>
                         Pagar
                       </Botton>
                     </div>
@@ -99,7 +125,11 @@ class HomeScreen extends Component {
                       <p className="text-xs text-center uppercase text-white">Mensual</p>
                     </div>
                     <div className="flex flex-col items-center justify-center w-full h-full py-6 px-8 rounded-b-lg bg-blue-500">
-                      <Botton block loading={isLoading} onClick={() => this.createPay("20")}>
+                      <Botton
+                        block
+                        disabled={walletBalance < 20 ? true : false}
+                        loading={isLoading}
+                        onClick={() => this.onCreatePay("20")}>
                         Pagar
                       </Botton>
                     </div>
@@ -121,7 +151,11 @@ class HomeScreen extends Component {
                       </p>
                     </div>
                     <div className="flex flex-col items-center justify-center w-full h-full py-6 px-8 rounded-b-lg bg-blue-500">
-                      <Botton block loading={isLoading} onClick={() => this.createPay("30")}>
+                      <Botton
+                        block
+                        disabled={walletBalance < 30 ? true : false}
+                        loading={isLoading}
+                        onClick={() => this.onCreatePay("30")}>
                         Pagar
                       </Botton>
                     </div>

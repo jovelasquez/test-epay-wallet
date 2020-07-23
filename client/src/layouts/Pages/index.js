@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { Container, Content } from "../../components/Container";
 
@@ -13,14 +13,20 @@ const PageLayout = ({ children }) => (
 );
 
 const PageLayoutRoute = ({ component: Component, ...rest }) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log(rest);
   return (
     <Route
       {...rest}
-      render={(matchProps) => (
-        <PageLayout>
-          <Component {...matchProps} />
-        </PageLayout>
-      )}
+      render={(matchProps) =>
+        !user && rest.path != "/signup" ? (
+          <Redirect to="/signup" />
+        ) : (
+          <PageLayout>
+            <Component {...matchProps} />
+          </PageLayout>
+        )
+      }
     />
   );
 };

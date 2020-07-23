@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { PaymentConfirm } from "../../services";
+const queryString = require("query-string");
 
 const PaymentCompleteScreen = (props) => {
   const [confirm, setConfirm] = useState("");
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    PaymentConfirm(props.location.search)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("response...", data);
-        setConfirm(data.code == "200" ? "green" : "red");
-        setMessage(data.message);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    const data = queryString.parse(props.location.search);
   }, [setMessage, setConfirm]);
 
   return (
@@ -25,7 +18,8 @@ const PaymentCompleteScreen = (props) => {
           <div role="alert">
             <div
               className={`border border-${confirm}-400 rounded-b bg-${confirm}-100 px-4 py-3 text-${confirm}-700`}>
-              <p>{message}</p>
+              <h1>{message}</h1>
+              <Link to="/">Principal</Link>
             </div>
           </div>
         </div>

@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
+import { Redirect } from "react-router-dom";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import CustomField from "../../components/CustomField";
@@ -17,17 +18,21 @@ class SignupScreen extends Component {
         email: Yup.string().email("El Correo no es valido").required("Este campo es requerido"),
         mobile: Yup.string().required("Este campo es requerido"),
       }),
+      user: JSON.parse(localStorage.getItem("user")),
     };
   }
 
   onSubmitHandle = (value) => {
-    console.log(value);
     this.setState({ isLoading: true });
 
     CreateUser(value)
       .then((response) => response.json())
       .then((data) => {
         console.log("response...", data);
+        if (data.code === 201) {
+          localStorage.setItem("user", JSON.stringify(data.payload));
+          this.props.history.push("/");
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -38,32 +43,38 @@ class SignupScreen extends Component {
   };
 
   render() {
-    const { isLoading, formValue, formSchema } = this.state;
+    const { isLoading, formValue, formSchema, user } = this.state;
     return (
-      <div className="flex justify-center py-10">
-        <div className="w-full sm:w-1/2 lg:w-6/12 mb-6">
-          <div className="mb-4">
-            <h1 className="font-extrabold text-xl leading-none">Registrar Usuario</h1>
-            <small className="text-gray-600 leading-none font-thin font-sans">
-              Complete el siguiente formulario
-            </small>
+      <Fragment>
+        {user && user.id ? (
+          <Redirect to="/" />
+        ) : (
+          <div className="flex justify-center py-10">
+            <div className="w-full sm:w-1/2 lg:w-6/12 mb-6">
+              <div className="mb-4">
+                <h1 className="font-extrabold text-xl leading-none">Registrar Usuario</h1>
+                <small className="text-gray-600 leading-none font-thin font-sans">
+                  Complete el siguiente formulario
+                </small>
+              </div>
+              <Formik
+                initialValues={formValue}
+                onSubmit={(values) => this.onSubmitHandle(values)}
+                validationSchema={formSchema}>
+                <Form>
+                  <CustomField id="name" name="name" placeholder="Nombre" />
+                  <CustomField id="dni" name="dni" placeholder="Documento de Identidad" />
+                  <CustomField id="email" name="email" placeholder="Correo Electrónico" />
+                  <CustomField id="mobile" name="mobile" placeholder="Teléfono" />
+                  <Button type="submit" loading={isLoading} block>
+                    Registrar
+                  </Button>
+                </Form>
+              </Formik>
+            </div>
           </div>
-          <Formik
-            initialValues={formValue}
-            onSubmit={(values) => this.onSubmitHandle(values)}
-            validationSchema={formSchema}>
-            <Form>
-              <CustomField id="name" name="name" placeholder="Nombre" />
-              <CustomField id="dni" name="dni" placeholder="Documento de Identidad" />
-              <CustomField id="email" name="email" placeholder="Correo Electrónico" />
-              <CustomField id="mobile" name="mobile" placeholder="Teléfono" />
-              <Button type="submit" loading={isLoading} block>
-                Registrar
-              </Button>
-            </Form>
-          </Formik>
-        </div>
-      </div>
+        )}
+      </Fragment>
     );
   }
 }
