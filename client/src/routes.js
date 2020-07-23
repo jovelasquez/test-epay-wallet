@@ -5,7 +5,6 @@ import PageLayoutRoute from "./layouts/Pages";
 import HomeScreen from "./screens/HomeScreen";
 import SignupScreen from "./screens/SignupScreen";
 import WalletRechargeScreen from "./screens/WalletRechargeScreen";
-import PaymentCompleteScreen from "./screens/PaymentCompleteScreen";
 
 const Routes = (props) => (
   <Router {...props}>

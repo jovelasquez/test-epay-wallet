@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import { Redirect } from "react-router-dom";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import { toast } from "react-toastify";
 import CustomField from "../../components/CustomField";
 import Button from "../../components/Button";
 import { CreateUser } from "../../services";
@@ -28,10 +29,19 @@ class SignupScreen extends Component {
     CreateUser(value)
       .then((response) => response.json())
       .then((data) => {
-        console.log("response...", data);
+        const type = data.code === 201 ? "success" : "error";
+        toast[type](data.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+
         if (data.code === 201) {
           localStorage.setItem("user", JSON.stringify(data.payload));
-          this.props.history.push("/");
+          this.props.history.replace("/");
         }
       })
       .catch((error) => {

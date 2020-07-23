@@ -14,12 +14,12 @@ const PageLayout = ({ children }) => (
 
 const PageLayoutRoute = ({ component: Component, ...rest }) => {
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log(rest);
+
   return (
     <Route
       {...rest}
       render={(matchProps) =>
-        !user && rest.path != "/signup" ? (
+        !user && rest.path !== "/signup" ? (
           <Redirect to="/signup" />
         ) : (
           <PageLayout>

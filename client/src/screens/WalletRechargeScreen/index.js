@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import { toast } from "react-toastify";
 import CustomField from "../../components/CustomField";
 import Button from "../../components/Button";
 import { RechageWallet } from "../../services";
@@ -27,9 +28,17 @@ class WalletRechargeScreen extends Component {
     RechageWallet(value)
       .then((response) => response.json())
       .then((data) => {
-        if (data.code === 200) {
-          alert(data.message);
-        }
+        const type = data.code === 200 ? "success" : "error";
+        toast[type](data.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: 1,
+        });
+        this.props.history.replace("/");
       })
       .catch((error) => {
         console.error(error);

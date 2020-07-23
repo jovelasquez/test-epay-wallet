@@ -23,7 +23,6 @@ class HomeScreen extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("response...", data);
         this.setState({
           walletBalance: data.payload.balance,
         });

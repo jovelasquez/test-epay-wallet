@@ -41,7 +41,7 @@ const PaymentConfirm = (data, params) => {
   const param = Object.keys(data)
     .map((key) => esc(key) + "=" + esc(data[key]))
     .join("&");
-  console.log(`${REACT_APP_API_URL}/wallets/payment?${param}`);
+
   return fetch(`${REACT_APP_API_URL}/wallets/payment?${param}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
