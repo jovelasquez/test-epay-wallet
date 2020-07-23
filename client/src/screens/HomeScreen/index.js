@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { toast } from "react-toastify";
 import Toolbar from "../../components/Toolbar";
 import Botton from "../../components/Button";
 import { GetBalanceWallet, CreatePayment, PaymentConfirm } from "../../services";
@@ -46,11 +47,16 @@ class HomeScreen extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.code === 201) {
-          alert(data.message);
-        } else {
-          alert(data.message);
-        }
+        const type = data.code === 201 ? "success" : "error";
+        toast[type](data.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: 1,
+        });
       })
       .catch((error) => {
         console.error(error);
@@ -64,7 +70,16 @@ class HomeScreen extends Component {
     PaymentConfirm(data)
       .then((response) => response.json())
       .then((data) => {
-        console.log("response...", data);
+        const type = data.code === 200 ? "success" : "error";
+        toast[type](data.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: 1,
+        });
         this.props.history.replace("/");
       })
       .catch((error) => {

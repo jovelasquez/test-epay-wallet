@@ -1,11 +1,24 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { ToastContainer } from "react-toastify";
 import "./index.css";
+import "react-toastify/dist/ReactToastify.css";
 import * as serviceWorker from "./serviceWorker";
 import Routes from "./routes";
 
 ReactDOM.render(
   <React.StrictMode>
+    <ToastContainer
+      position="top-center"
+      autoClose={8000}
+      hideProgressBar
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+    />
     <Routes />
   </React.StrictMode>,
   document.getElementById("root")
