@@ -13,7 +13,6 @@ const Routes = (props) => (
       <PageLayoutRoute exact path="/" component={HomeScreen} />
       <PageLayoutRoute exact path="/signup" component={SignupScreen} />
       <PageLayoutRoute exact path="/wallet/recharge" component={WalletRechargeScreen} />
-      <PageLayoutRoute exact path="/wallet/payment/complete" component={PaymentCompleteScreen} />
     </Switch>
   </Router>
 );
